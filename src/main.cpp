@@ -199,7 +199,7 @@ void loop()
     }
 
     //checks to see is the altitude is decreasing
-    if ((DeltaAltitude < (DeltaMaxAltitude - AltitudeUncertainty)) || ((millis() - MainStartTime) > 5000))
+    if ((DeltaAltitude < (DeltaMaxAltitude - AltitudeUncertainty)) || ((millis() - MainStartTime) > 3000))
     {
       DeployRecoverySystem();
     }
