@@ -185,12 +185,10 @@ void loop()
   RetrieveGyroData();
   if (Launched == true)
   {
-    {
-      Servo1.write(map(AnglePitch, -180, 180, 0, 180));
-      Servo2.write(map(AnglePitch, -180, 180, 180, 0));
-      Servo3.write(map(AngleYaw, -180, 180, 0, 180));
-      Servo4.write(map(AngleYaw, -180, 180, 180, 0));
-    }
+    Servo1.write(map(AnglePitch, -180, 180, 0, 180));
+    Servo2.write(map(AnglePitch, -180, 180, 180, 0));
+    Servo3.write(map(AngleYaw, -180, 180, 0, 180));
+    Servo4.write(map(AngleYaw, -180, 180, 180, 0));
 
     if (Altitude > MaxAltitude)
     {
