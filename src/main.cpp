@@ -7,6 +7,7 @@
 #include <Servo.h>
 
 const float AltitudeUncertainty = 1;
+const int Servo1Offset = 0, Servo2Offset = 0, Servo3Offset = 0, Servo4Offset = 0;
 
 Adafruit_BMP280 BMPSensor;
 File FileHandler;
@@ -79,11 +80,11 @@ void SetupSensors()
 void SetupServos()
 {
   //sets up the servos
-  Servo1.attach(9);
-  Servo2.attach(8);
-  Servo3.attach(7);
-  Servo4.attach(6);
-  Servo5.attach(5); 
+  Servo1.attach(8);
+  Servo2.attach(7);
+  Servo3.attach(6);
+  Servo4.attach(5);
+  Servo5.attach(9); 
   Servo5.write(0);
   delay(1000);
 
@@ -185,10 +186,10 @@ void loop()
   RetrieveGyroData();
   if (Launched == true)
   {
-    Servo1.write(map(AnglePitch, -180, 180, 0, 180));
-    Servo2.write(map(AnglePitch, -180, 180, 180, 0));
-    Servo3.write(map(AngleYaw, -180, 180, 0, 180));
-    Servo4.write(map(AngleYaw, -180, 180, 180, 0));
+    Servo1.write(map(AnglePitch, -180, 180, 0, 180) + Servo1Offset);
+    Servo2.write(map(AnglePitch, -180, 180, 180, 0) + Servo2Offset);
+    Servo3.write(map(AngleYaw, -180, 180, 0, 180) + Servo3Offset);
+    Servo4.write(map(AngleYaw, -180, 180, 180, 0) + Servo4Offset);
 
     if (Altitude > MaxAltitude)
     {
