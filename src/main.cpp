@@ -197,7 +197,7 @@ void loop()
       DeltaMaxAltitude = MaxAltitude - StartingAltitude;
     }
 
-    //checks to see is the altitude is decreasing
+    //checks to see if the altitude is decreasing
     if ((DeltaAltitude < (DeltaMaxAltitude - AltitudeUncertainty)) || ((millis() - MainStartTime) > 3500))
     {
       DeployRecoverySystem();
@@ -211,7 +211,7 @@ void loop()
   }
   else
   {
-    if ((abs(Gyroscrope.getAccZ()) > 1.1))// || (abs(Gyroscrope.getAccX()) < 0.9) || (abs(Gyroscrope.getAccY()) < 0.9))
+    if ((abs(Gyroscrope.getAccZ()) > 1.2))// || (abs(Gyroscrope.getAccX()) < 0.9) || (abs(Gyroscrope.getAccY()) < 0.9))
     {
       //Gyroscrope.calcOffsets();
       Launched = true;
