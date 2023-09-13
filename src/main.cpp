@@ -31,6 +31,8 @@ float Temperature = 0;
 float Pressure = 0;
 bool FilePresent = true;
 bool Launched = false;
+bool RecoveryDeployed = false;
+
 uint64_t MainStartTime = 0;
 
 void SetupSensors()
@@ -139,6 +141,13 @@ void DeployRecoverySystem()
 {
   //moves an internal servo that will push the nose cone of dragging the shoot out
   Servo5.write(180);
+  Serial.println("Recovery Deployed!");
+  FileHandler = SD.open("DATA.txt", FILE_WRITE);
+  if (FileHandler)
+  {
+    FileHandler.println("   RECOVERY DEPLOYED   ");
+  }
+  FileHandler.close();
 }
 
 void LogData()
@@ -149,7 +158,6 @@ void LogData()
     FileHandler = SD.open("DATA.txt", FILE_WRITE);
     if (FileHandler)
     {
-      Serial.println(" Data was written ");
       FileHandler.print("Time/ms: "); FileHandler.print(millis()); FileHandler.print(" ");
       FileHandler.print("Alt/m: "); FileHandler.print(Altitude); FileHandler.print(" ");
       FileHandler.print("Delta Alt/m: "); FileHandler.print(DeltaAltitude); FileHandler.print(" ");
@@ -205,8 +213,10 @@ void loop()
       DeltaMaxAltitude = MaxAltitude - StartingAltitude;
     }
     //checks to see if the altitude is decreasing
-    if ((DeltaAltitude < (DeltaMaxAltitude - AltitudeUncertainty)) || ((millis() - MainStartTime) > 3500))
+    //if ((DeltaAltitude < (DeltaMaxAltitude - AltitudeUncertainty)) || ((millis() - MainStartTime) > 3500))
+    if ((RecoveryDeployed == false) && ((millis() - MainStartTime) > 3500))
     {
+      RecoveryDeployed = true;
       DeployRecoverySystem();
     }
 
@@ -218,7 +228,7 @@ void loop()
   }
   else
   {
-    if ((abs(Gyroscrope.getAccZ()) > 1.2))// || (abs(Gyroscrope.getAccX()) < 0.9) || (abs(Gyroscrope.getAccY()) < 0.9))
+    if ((abs(Gyroscrope.getAccZ()) > 1.4))// || (abs(Gyroscrope.getAccX()) < 0.9) || (abs(Gyroscrope.getAccY()) < 0.9))
     {
       //Gyroscrope.calcOffsets();
       Launched = true;
